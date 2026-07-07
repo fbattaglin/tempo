@@ -28,7 +28,7 @@ struct BPMControlView: View {
                     }
                     .buttonStyle(.plain)
                     .foregroundStyle(.secondary)
-                    .help("Restaurar \(Int(viewModel.defaultBPM.rounded())) BPM (⌘0)")
+                    .help("Reset to \(Int(viewModel.defaultBPM.rounded())) BPM (⌘0)")
                     .transition(.opacity)
                 }
             }

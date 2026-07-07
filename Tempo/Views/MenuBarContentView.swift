@@ -23,7 +23,7 @@ struct MenuBarContentView: View {
             )
 
             HStack {
-                Button(viewModel.isPlaying ? "Pausar" : "Tocar") {
+                Button(viewModel.isPlaying ? "Pause" : "Play") {
                     viewModel.togglePlayback()
                 }
                 .keyboardShortcut(.space, modifiers: [])
@@ -32,7 +32,7 @@ struct MenuBarContentView: View {
 
                 Spacer()
 
-                Button("Sair") {
+                Button("Quit") {
                     NSApplication.shared.terminate(nil)
                 }
                 .buttonStyle(.plain)

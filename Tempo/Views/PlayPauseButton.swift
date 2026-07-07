@@ -13,7 +13,7 @@ struct PlayPauseButton: View {
         }
         .buttonStyle(.borderedProminent)
         .clipShape(Circle())
-        .help("Tocar/Pausar (Espaço)")
+        .help("Play/Pause (Space)")
         // Space is already a global shortcut (see TempoApp's CommandMenu).
         // If this button also held keyboard focus (Full Keyboard Access /
         // VoiceOver), a Space press would fire both the focused control's

@@ -1,107 +1,108 @@
 # 🎵 Tempo
 
-**Um metrônomo nativo pra macOS que não implica com sua CPU nem com seu ouvido.**
+**A native macOS metronome that doesn't bother your CPU or your ears.**
 
-Sem Electron, sem framework web escondido debaixo do capô, sem 200MB pra
-tocar um clique. Só SwiftUI + `AVAudioEngine`, um pêndulo que balança
-*exatamente* no tempo do áudio (porque os dois nascem do mesmo relógio), e
-uma interface que cabe na palma da mão — literalmente, é uma janelinha.
+No Electron, no web framework hiding under the hood, no 200MB just to play
+a click. Just SwiftUI + `AVAudioEngine`, a pendulum that swings *exactly*
+in time with the audio (because both are driven by the same clock), and
+an interface that fits in the palm of your hand — literally, it's a tiny
+window.
 
 ---
 
-## ✨ O que ele faz
+## ✨ What it does
 
-- 🎯 **BPM de 30 a 240**, com slider, campo numérico, ↑/↓ no teclado ou
-  arrastando o peso do pêndulo (igual metrônomo mecânico de verdade: peso
-  perto do eixo = rápido, longe = devagar).
-- 🕰️ **Pêndulo sincronizado ao áudio de verdade** — não é dois timers
-  separados torcendo pra ficarem alinhados. Ambos leem o mesmo relógio de
-  sample-time, então nunca dessincronizam, nem depois de tocar por horas.
-- 👆 **Tap tempo** — bata no ritmo (botão ou tecla `T`) que ele calcula o BPM.
-- 🎼 **Compassos** de 2/4 a 12/8, com acento sonoro no primeiro tempo.
-- ⚙️ **BPM padrão configurável** (⌘,) — chegou de um jeito, quer voltar pra
-  ele com um clique ou `⌘0`? Você decide qual é esse número, não eu.
-- 📊 **Menu bar** — dá pra rodar sem nem abrir a janela principal.
-- 🌗 Dark mode, light mode, atalhos de teclado nativos — tudo do jeito que
-  um app de macOS de verdade deveria se comportar.
+- 🎯 **30–240 BPM**, via slider, numeric field, ↑/↓ on the keyboard, or by
+  dragging the pendulum weight (just like a real mechanical metronome:
+  weight near the pivot = fast, farther out = slow).
+- 🕰️ **Pendulum genuinely synced to the audio** — not two separate timers
+  hoping to stay aligned. Both read the same sample-time clock, so they
+  never drift apart, even after playing for hours.
+- 👆 **Tap tempo** — tap along (button or `T` key) and it works out the BPM.
+- 🎼 **Time signatures** from 2/4 to 12/8, with an accent on the downbeat.
+- ⚙️ **Configurable default BPM** (⌘,) — landed somewhere and want to get
+  back? One click or `⌘0`. You decide what that number is, not me.
+- 📊 **Menu bar mode** — runs without even opening the main window.
+- 🌗 Dark mode, light mode, native keyboard shortcuts — everything a real
+  macOS app should do.
 
-## 🧠 Por que o timing não desanda
+## 🧠 Why the timing never drifts
 
-A cilada clássica de metrônomo em software: usar um `Timer` pra disparar
-cada clique. Timers têm jitter, acumulam atraso, e depois de alguns minutos
-o "clique" já não bate mais com o "tique". Aqui não rola isso — o motor de
-áudio **agenda os cliques com precisão de amostra** direto no
-`AVAudioEngine`, num acumulador de ponto flutuante que nunca deixa o
-arredondamento virar bola de neve. Tem até teste automatizado garantindo
-isso (veja `TempoTests/BeatClockTests.swift`).
+The classic software-metronome trap: firing each click from a `Timer`.
+Timers jitter, delay accumulates, and after a few minutes the "click" no
+longer lines up with the "tick." Not here — the audio engine **schedules
+clicks with sample-accurate precision** straight on `AVAudioEngine`, using
+a floating-point accumulator that never lets rounding snowball. There's
+even an automated test guarding this (see
+`TempoTests/BeatClockTests.swift`).
 
-## 🚀 Rodando o projeto
+## 🚀 Running the project
 
-Precisa de Xcode 15+ e [XcodeGen](https://github.com/yonaskolb/XcodeGen)
-(`brew install xcodegen`) — o `.xcodeproj` não fica versionado, é gerado a
-partir do `project.yml`.
+You'll need Xcode 15+ and [XcodeGen](https://github.com/yonaskolb/XcodeGen)
+(`brew install xcodegen`) — the `.xcodeproj` isn't committed, it's
+generated from `project.yml`.
 
-### Jeito mais fácil: instalar direto
+### Easiest path: install it directly
 
 ```sh
 ./install.sh
 ```
 
-Builda tudo (universal, arm64 + x86_64), assina e já deixa instalado em
-`/Applications`, substituindo a versão anterior. Abre o app sozinho no
-final. Sem dmg, sem arrastar ícone.
+Builds everything (universal, arm64 + x86_64), signs it, and installs
+straight into `/Applications`, replacing whatever was there. Opens the app
+on its own at the end. No dmg, no dragging icons.
 
-Pra conferir se você está mesmo na build mais recente: **menu Tempo → About
-Tempo**. Cada build carimba um número tipo `20260705.211212` (data + hora)
-— bate com o que o script imprimiu? Você tá na versão certa.
+To confirm you're on the latest build: **Tempo menu → About Tempo**. Each
+build is stamped with a number like `20260705.211212` (date + time) —
+does it match what the script printed? You're on the right version.
 
-### Só pra abrir no Xcode e mexer no código
+### Just to open in Xcode and hack on the code
 
 ```sh
 xcodegen generate
 open Tempo.xcodeproj
 ```
-⌘R e pronto.
+⌘R and you're set.
 
-### Testes
+### Tests
 
 ```sh
 xcodebuild -project Tempo.xcodeproj -scheme Tempo -configuration Debug -destination 'platform=macOS' test
 ```
 
-### Gerar um `.dmg` de verdade (pra distribuir)
+### Building a real `.dmg` (for distribution)
 
 ```sh
 Packaging/build_dmg.sh
 ```
 
-O app é assinado **ad-hoc** (sem conta Apple Developer paga). Se alguém
-instalar via `.dmg` baixado, o Gatekeeper vai reclamar de "desenvolvedor não
-identificado" na primeira abertura — clique direito no ícone → **Abrir** →
-confirma. Só acontece uma vez.
+The app is **ad-hoc signed** (no paid Apple Developer account). If someone
+installs it from a downloaded `.dmg`, Gatekeeper will complain about an
+"unidentified developer" the first time it's opened — right-click the icon
+→ **Open** → confirm. Only happens once.
 
-## 🗺️ Arquitetura, por trás das cortinas
+## 🗺️ Architecture, behind the curtain
 
-| Arquivo | O que faz |
+| File | What it does |
 |---|---|
-| `Tempo/Audio/MetronomeEngine.swift` | O coração: agenda cliques sample-accurate no `AVAudioEngine`, nunca para o motor entre pausas (só o player), pra retomar ser instantâneo. |
-| `Tempo/Audio/BeatClock.swift` | A única fonte da verdade sobre "quando é agora" — traduz sample-time de áudio pra host-time, pra UI ler sem tocar na thread de áudio. |
-| `Tempo/Views/PendulumView.swift` | O pêndulo. Interpola entre as duas últimas batidas publicadas pelo `BeatClock` — zero lógica de tempo própria. |
-| `Tempo/ViewModel/MetronomeViewModel.swift` | Estado observável: BPM, compasso, play/pause, tap tempo, tudo persistido. |
-| `Tempo/Views/SettingsView.swift` | A telinha de preferências (⌘,) onde você define seu BPM padrão. |
+| `Tempo/Audio/MetronomeEngine.swift` | The heart: schedules sample-accurate clicks on `AVAudioEngine`, never stops the engine between pauses (only the player), so resuming is instant. |
+| `Tempo/Audio/BeatClock.swift` | The single source of truth for "what time is it" — translates audio sample-time to host-time, so the UI can read it without touching the audio thread. |
+| `Tempo/Views/PendulumView.swift` | The pendulum. Interpolates between the last two beats published by `BeatClock` — zero timing logic of its own. |
+| `Tempo/ViewModel/MetronomeViewModel.swift` | Observable state: BPM, time signature, play/pause, tap tempo, all persisted. |
+| `Tempo/Views/SettingsView.swift` | The preferences screen (⌘,) where you set your default BPM. |
 
-## ⌨️ Atalhos
+## ⌨️ Shortcuts
 
-| Atalho | Ação |
+| Shortcut | Action |
 |---|---|
-| `Espaço` | Tocar / Pausar |
+| `Space` | Play / Pause |
 | `↑` / `↓` | BPM ±1 |
 | `⇧↑` / `⇧↓` | BPM ±5 |
-| `⌘0` | Restaurar BPM padrão |
-| `⌘,` | Preferências |
-| `T` (ou botão TAP) | Tap tempo |
+| `⌘0` | Reset to default BPM |
+| `⌘,` | Preferences |
+| `T` (or the TAP button) | Tap tempo |
 
 ---
 
-*Feito pra ser leve, rápido e ficar fora do seu caminho — o metrônomo é o
-acompanhante, não o protagonista.*
+*Built to be light, fast, and stay out of your way — the metronome is the
+accompanist, not the star.*
