@@ -13,37 +13,37 @@ struct TempoApp: App {
         .commands {
             CommandGroup(replacing: .newItem) { }
 
-            CommandMenu("Metrônomo") {
-                Button(viewModel.isPlaying ? "Pausar" : "Tocar") {
+            CommandMenu("Metronome") {
+                Button(viewModel.isPlaying ? "Pause" : "Play") {
                     viewModel.togglePlayback()
                 }
                 .keyboardShortcut(.space, modifiers: [])
 
                 Divider()
 
-                Button("Aumentar BPM") {
+                Button("Increase BPM") {
                     viewModel.nudgeBPM(by: 1)
                 }
                 .keyboardShortcut(.upArrow, modifiers: [])
 
-                Button("Diminuir BPM") {
+                Button("Decrease BPM") {
                     viewModel.nudgeBPM(by: -1)
                 }
                 .keyboardShortcut(.downArrow, modifiers: [])
 
-                Button("Aumentar BPM (+5)") {
+                Button("Increase BPM (+5)") {
                     viewModel.nudgeBPM(by: 5)
                 }
                 .keyboardShortcut(.upArrow, modifiers: [.shift])
 
-                Button("Diminuir BPM (-5)") {
+                Button("Decrease BPM (-5)") {
                     viewModel.nudgeBPM(by: -5)
                 }
                 .keyboardShortcut(.downArrow, modifiers: [.shift])
 
                 Divider()
 
-                Button("Restaurar \(Int(viewModel.defaultBPM.rounded())) BPM") {
+                Button("Reset to \(Int(viewModel.defaultBPM.rounded())) BPM") {
                     viewModel.resetBPMToDefault()
                 }
                 .keyboardShortcut("0", modifiers: [.command])

@@ -13,6 +13,6 @@ struct TapTempoButton: View {
         }
         .buttonStyle(.bordered)
         .keyboardShortcut("t", modifiers: [])
-        .help("Bata no ritmo para definir o andamento")
+        .help("Tap along to set the tempo")
     }
 }

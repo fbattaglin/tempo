@@ -15,7 +15,7 @@ struct SettingsView: View {
                     step: 1
                 ) {
                     HStack {
-                        Text("BPM padrão")
+                        Text("Default BPM")
                         Spacer()
                         Text("\(Int(viewModel.defaultBPM.rounded()))")
                             .monospacedDigit()
@@ -23,12 +23,12 @@ struct SettingsView: View {
                     }
                 }
 
-                Button("Usar o BPM atual (\(Int(viewModel.bpm.rounded()))) como padrão") {
+                Button("Use current BPM (\(Int(viewModel.bpm.rounded()))) as default") {
                     viewModel.setCurrentBPMAsDefault()
                 }
                 .disabled(Int(viewModel.bpm.rounded()) == Int(viewModel.defaultBPM.rounded()))
             } footer: {
-                Text("O botão ↺ e o atalho ⌘0 sempre voltam para este valor.")
+                Text("The ↺ button and the ⌘0 shortcut always return to this value.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

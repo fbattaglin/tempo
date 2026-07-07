@@ -65,12 +65,12 @@ INSTALLED_VERSION=$(defaults read "/Applications/$APP_NAME.app/Contents/Info.pli
 INSTALLED_BUILD=$(defaults read "/Applications/$APP_NAME.app/Contents/Info.plist" CFBundleVersion)
 
 echo ""
-echo "Instalado: /Applications/$APP_NAME.app"
+echo "Installed: /Applications/$APP_NAME.app"
 echo "Version: $INSTALLED_VERSION   Build: $INSTALLED_BUILD"
 echo ""
-echo "Para confirmar que está rodando essa build: abra o Tempo, menu"
-echo "Apple > About Tempo (ou clique no menu \"Tempo\" na barra > About Tempo)"
-echo "e confira se o número de Build bate com o de cima."
+echo "To confirm you're running this build: open Tempo, then Apple menu >"
+echo "About Tempo (or the \"Tempo\" menu bar item > About Tempo) and check"
+echo "that the Build number matches the one printed above."
 echo ""
-echo "==> Abrindo o Tempo"
+echo "==> Opening Tempo"
 open "/Applications/$APP_NAME.app"
